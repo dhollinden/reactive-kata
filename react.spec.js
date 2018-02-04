@@ -20,7 +20,7 @@ describe('React module', () => {
     expect(computeCell.value).toEqual(2)
   })
 
-  xtest('compute cell takes inputs in correct order', () => {
+  test('compute cell takes inputs in correct order', () => {
     const inputCells = [
       new InputCell(1),
       new InputCell(2)
@@ -34,7 +34,7 @@ describe('React module', () => {
     expect(computeCell.value).toEqual(21)
   })
 
-  xtest('compute cells update value when inputs are changed', () => {
+  test('compute cells update value when inputs are changed', () => {
     const inputCell = new InputCell(1)
     const computeCell = new ComputeCell(
       [inputCell],
@@ -45,7 +45,7 @@ describe('React module', () => {
   })
 
 
-  xtest('compute cells can depend on other compute cells', () => {
+  test('compute cells can depend on other compute cells', () => {
     const inputCell = new InputCell(1)
     const timesTwo = new ComputeCell(
       [inputCell],
@@ -68,7 +68,7 @@ describe('React module', () => {
     expect(sum.value).toEqual(96)
   })
 
-  xtest('compute cells fire callbacks', () => {
+  test('compute cells fire callbacks', () => {
     const inputCell = new InputCell(1)
     const output = new ComputeCell(
       [inputCell],
@@ -82,7 +82,7 @@ describe('React module', () => {
     expect(callback.values).toEqual([4])
   })
 
-  xtest('callbacks fire only when output values change', () => {
+  test('callbacks fire only when output values change', () => {
     const inputCell = new InputCell(1)
     const output = new ComputeCell(
       [inputCell],
