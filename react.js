@@ -48,7 +48,8 @@ class ComputeCell {
     let priorValue = this.value;
     this.value = this.fn(this.inputArray);
     this.updateDependentCells();
-    this.updateCallbackCells(priorValue);
+    if (this.value != priorValue)
+      this.updateCallbackCells(priorValue);
   }
 
   updateDependentCells() {
@@ -64,8 +65,7 @@ class ComputeCell {
   updateCallbackCells(priorValue) {
     for (var i=0; i<this.callbackCells.length; i++) {
       let result = this.callbackCells[i].fn(this);
-      if (this.value != priorValue)
-        this.callbackCells[i].values.push(result);
+      this.callbackCells[i].values.push(result);
     }
 // *when I use forEach, test fails with this = undefined
 //    this.callbackCells.forEach(function(item) {
