@@ -55,20 +55,25 @@ class ComputeCell {
 
   addCallback(callbackCell) {
     this.callbackCells.push(callbackCell);
-//    callbackCell.values.push(callbackCell.fn(this));
   }
 
   updateCallbackCells(priorValue) {
     for (var i=0; i<this.callbackCells.length; i++) {
       let result = this.callbackCells[i].fn(this);
-      console.log(priorValue, this.value);
       if (this.value != priorValue)
         this.callbackCells[i].values.push(result);
     }
+// *when I use forEach, test fails with this = undefined
 //    this.callbackCells.forEach(function(item) {
 //      let result = item.fn(this);
 //      item.values.push(result);
 //    })
+  }
+
+  removeCallback(callbackCell) {
+    let index = this.callbackCells.indexOf(callbackCell);
+    if (index != -1)
+      this.callbackCells.splice(index, 1);
   }
 
 }
