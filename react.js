@@ -35,8 +35,12 @@ class ComputeCell {
     this.value = fn(inputArray);
     this.dependentCells = [];
     this.callbackCells = [];
-    for (var i=0; i<inputArray.length; i++) {
-      inputArray[i].dependentCells.push(this);
+    this.storeDependentCells();
+  }
+
+  storeDependentCells() {
+    for (var i=0; i<this.inputArray.length; i++) {
+      this.inputArray[i].dependentCells.push(this);
     }
   }
 
