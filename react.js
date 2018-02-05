@@ -11,17 +11,14 @@ class InputCell {
   }
 
   updateDependentCells() {
-    this.dependentCells.forEach(function(item) {
-      item.updateCell();
-    });
+    this.dependentCells.forEach(function(item) { item.updateCell(); });
     this.updateCallbackCells();
   }
 
   updateCallbackCells() {
-    this.dependentCells.forEach(function(item) {
-      item.updateCallbackCells();
-    });
+    this.dependentCells.forEach(function(item) { item.updateCallbackCells(); });
   }
+
 }
 
 class CallbackCell {
@@ -36,8 +33,8 @@ class CallbackCell {
 class ComputeCell {
 
   constructor(inputArray, fn) {
-    this.fn = fn;
     this.inputArray = inputArray;
+    this.fn = fn;
     this.value = fn(inputArray);
     this.dependentCells = [];
     this.callbackCells = [];
@@ -55,19 +52,10 @@ class ComputeCell {
     this.priorValue = this.value;
     this.value = this.fn(this.inputArray);
     this.updateDependentCells();
-//    if (this.value != priorValue)
-//      this.updateCallbackCells(priorValue);
   }
 
   updateDependentCells() {
-    this.dependentCells.forEach(function(item) {
-      item.updateCell();
-    });
-  }
-
-  addCallback(callbackCell) {
-    this.callbackCells.push(callbackCell);
-    console.log("addCallback: ", this.callbackCells);
+    this.dependentCells.forEach(function(item) { item.updateCell(); });
   }
 
   updateCallbackCells() {
@@ -86,6 +74,10 @@ class ComputeCell {
     this.dependentCells.forEach(function(item) {
       item.updateCallbackCells();
     })
+  }
+
+  addCallback(callbackCell) {
+    this.callbackCells.push(callbackCell);
   }
 
   removeCallback(callbackCell) {
