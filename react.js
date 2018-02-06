@@ -11,17 +11,17 @@ class InputCell {
   }
 
   saveDependentCellValues() {
-    this.dependentCells.forEach(function(item) { item.saveCellValue(); });
+    this.dependentCells.forEach(item => item.saveCellValue());
     this.updateDependentCells();
   }
 
   updateDependentCells() {
-    this.dependentCells.forEach(function(item) { item.updateCell(); });
+    this.dependentCells.forEach(item => item.updateCell());
     this.updateCallbackCells();
   }
 
   updateCallbackCells() {
-    this.dependentCells.forEach(function(item) { item.updateCallbackCells(); });
+    this.dependentCells.forEach(item => item.updateCallbackCells());
   }
 
 }
@@ -50,7 +50,7 @@ class ComputeCell {
   }
 
   storeDependencies() {
-    this.inputArray.forEach(function(item) { item.dependentCells.push(this); }, this)
+    this.inputArray.forEach(item => item.dependentCells.push(this), this);
   }
 
   saveCellValue() {
@@ -59,7 +59,7 @@ class ComputeCell {
   }
 
   saveDependentCellValues() {
-    this.dependentCells.forEach(function(item) { item.saveCellValue(); })
+    this.dependentCells.forEach(item => item.saveCellValue());
   }
 
   updateCell() {
@@ -68,12 +68,12 @@ class ComputeCell {
   }
 
   updateDependentCells() {
-    this.dependentCells.forEach(function(item) { item.updateCell(); });
+    this.dependentCells.forEach(item => item.updateCell());
   }
 
   updateCallbackCells() {
     if (this.value !== this.savedValue) { // check if ComputeCell value has changed
-      this.callbackCells.forEach(function(e) {
+      this.callbackCells.forEach(e => {
         let newCallbackValue = e.fn(this);
         let currentCallbackValue = e.values[e.values.length - 1];
         if (newCallbackValue !== currentCallbackValue) { //check if CallbackCell needs to be updated
@@ -85,7 +85,7 @@ class ComputeCell {
   }
 
   updateDependentCallbackCells() {
-    this.dependentCells.forEach(function(item) { item.updateCallbackCells(); })
+    this.dependentCells.forEach(item => item.updateCallbackCells());
   }
 
   addCallback(callbackCell) { this.callbackCells.push(callbackCell); }
