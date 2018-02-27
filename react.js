@@ -7,21 +7,9 @@ class InputCell {
 
   setValue(value) {
     this.value = value;
-    this.saveDependentCellValues();
-  }
-
-  saveDependentCellValues() {
-    this.dependentCells.forEach(item => item.saveCellValue());
-    this.updateDependentCells();
-  }
-
-  updateDependentCells() {
-    this.dependentCells.forEach(item => item.updateCell());
-    this.updateCallbackCells();
-  }
-
-  updateCallbackCells() {
-    this.dependentCells.forEach(item => item.updateCallbackCells());
+    this.dependentCells.forEach(item => item.react("save current values"));
+    this.dependentCells.forEach(item => item.react("update compute cells"));
+    this.dependentCells.forEach(item => item.react("update callback cells"));
   }
 
 }
@@ -53,39 +41,36 @@ class ComputeCell {
     this.inputArray.forEach(item => item.dependentCells.push(this));
   }
 
-  saveCellValue() {
-    this.savedValue = this.value;
-    this.saveDependentCellValues();
+  react(action) {
+    if (action === "save current values")
+      this.saveCellValue()
+    else if (action === "update compute cells")
+      this.updateCell()
+    else if (action === "update callback cells")
+      this.updateCallbackCells()
   }
 
-  saveDependentCellValues() {
-    this.dependentCells.forEach(item => item.saveCellValue());
+  saveCellValue() {
+    this.savedValue = this.value;
+    this.dependentCells.forEach(item => item.react("save current values"));
   }
 
   updateCell() {
     this.value = this.fn(this.inputArray);
-    this.updateDependentCells();
-  }
-
-  updateDependentCells() {
-    this.dependentCells.forEach(item => item.updateCell());
+    this.dependentCells.forEach(item => item.react("update compute cells"));
   }
 
   updateCallbackCells() {
     if (this.value !== this.savedValue) { // check if ComputeCell value has changed
-      this.callbackCells.forEach(e => {
-        let newCallbackValue = e.fn(this);
-        let currentCallbackValue = e.values[e.values.length - 1];
+      this.callbackCells.forEach(item => {
+        let newCallbackValue = item.fn(this);
+        let currentCallbackValue = item.values[item.values.length - 1];
         if (newCallbackValue !== currentCallbackValue) { //check if CallbackCell needs to be updated
-          e.values.push(newCallbackValue);
+          item.values.push(newCallbackValue);
         }
       })
     }
-    this.updateDependentCallbackCells();
-  }
-
-  updateDependentCallbackCells() {
-    this.dependentCells.forEach(item => item.updateCallbackCells());
+    this.dependentCells.forEach(item => item.react("update callback cells"));
   }
 
   addCallback(callbackCell) { this.callbackCells.push(callbackCell); }
