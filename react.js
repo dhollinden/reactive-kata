@@ -50,7 +50,7 @@ class ComputeCell {
   }
 
   storeDependencies() {
-    this.inputArray.forEach(item => item.dependentCells.push(this), this);
+    this.inputArray.forEach(item => item.dependentCells.push(this));
   }
 
   saveCellValue() {
@@ -79,7 +79,7 @@ class ComputeCell {
         if (newCallbackValue !== currentCallbackValue) { //check if CallbackCell needs to be updated
           e.values.push(newCallbackValue);
         }
-      }, this)
+      })
     }
     this.updateDependentCallbackCells();
   }
